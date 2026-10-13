@@ -1,0 +1,115 @@
+{
+  "_note": "Order = order of the Performance Summary table. 'keywords' are used to match each (unlabelled) ranking table in the Word doc to its URL; update them if a URL's tracked keywords change.",
+  "urls": [
+    {
+      "url": "https://www.splashtop.com/blog/what-is-remote-access",
+      "keywords": [
+        "Remote Access",
+        "What is remote access",
+        "benefits of remote access",
+        "remote desktop access"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/products/remote-access",
+      "keywords": [
+        "Remote access software",
+        "Remote Access Solution",
+        "remote access tool"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/blog/what-is-remote-desktop",
+      "keywords": [
+        "Remote Desktop",
+        "What is remote desktop"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/solutions/remote-desktop",
+      "keywords": [
+        "Remote desktop software",
+        "Remote desktop Solution",
+        "remote desktop connection software",
+        "remote pc software",
+        "remote desktop program",
+        "remote desktop tools",
+        "Remote Desktop"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/blog/what-is-remote-support",
+      "keywords": [
+        "remote support",
+        "what is remote support",
+        "remote desktop support"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/products/remote-support",
+      "keywords": [
+        "Remote support software",
+        "Remote Support Solution",
+        "remote support tool",
+        "remote it support software"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/blog/what-is-patch-management",
+      "keywords": [
+        "patch management",
+        "what is patch management"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/solutions/patch-management",
+      "keywords": [
+        "patch management software",
+        "automated patch management solution",
+        "patch management solution"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/blog/autonomous-endpoint-management-comprehensive-guide",
+      "keywords": [
+        "autonomous endpoint management"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/compare/teamviewer-alternative",
+      "keywords": [
+        "teamviewer alternative"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/blog/teamviewer-pricing-comparison",
+      "keywords": [
+        "teamviewer pricing"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/compare/anydesk-alternative",
+      "keywords": [
+        "anydesk alternative"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/blog/anydesk-pricing-comparison",
+      "keywords": [
+        "anydesk pricing"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/compare/logmein-alternative",
+      "keywords": [
+        "logmein alternative"
+      ]
+    },
+    {
+      "url": "https://www.splashtop.com/compare/logmein-alternative/pricing",
+      "keywords": [
+        "logmein pricing"
+      ]
+    }
+  ]
+}

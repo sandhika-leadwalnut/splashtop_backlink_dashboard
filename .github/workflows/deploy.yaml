@@ -1,0 +1,95 @@
+name: Deploy monthly dashboard
+
+# Every push to main builds the dashboard from data/report.json, deploys it to Vercel,
+# and gives that deployment its own monthly link:
+#   https://splashtop-backlinking-dashboard-<month><year>.vercel.app
+# Each deployment is a frozen copy, so earlier months' links keep showing their own data.
+# Pushing again for the same month (a correction) moves only that month's link.
+# A custom link name can be saved in data/report.json (meta.linkName) by
+#   python scripts/update_dashboard.py <doc> --link-name <name>
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      link_name:
+        description: "Optional: use this exact link name instead of the month name (e.g. splashtop-backlinking-dashboard-september2026-test)"
+        required: false
+        default: ""
+
+concurrency:
+  group: vercel-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TELEMETRY_DISABLED: 1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check the build works
+        run: npm run build
+
+      - name: Work out this month's link name
+        id: link
+        env:
+          OVERRIDE: ${{ github.event.inputs.link_name }}
+        run: |
+          # Priority: manual "Run workflow" box > linkName saved in report.json > month default
+          if [ -n "$OVERRIDE" ]; then
+            NAME="$OVERRIDE"
+          else
+            NAME=$(node -e '
+              const meta = require("./data/report.json").meta;
+              if (meta.linkName) { console.log(meta.linkName); process.exit(0); }
+              const prefix = require("./data/site-config.json").linkPrefix;
+              const [y, mo] = meta.reportMonth.split("-"); // e.g. 2026-09
+              const months = ["january","february","march","april","may","june","july",
+                              "august","september","october","november","december"];
+              console.log(`${prefix}-${months[Number(mo) - 1]}${y}`);
+            ')
+          fi
+          NAME="${NAME#https://}"
+          NAME="${NAME%/}"
+          NAME="${NAME%.vercel.app}"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "Monthly link will be: https://$NAME.vercel.app"
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          URL=$(npx vercel deploy --prod --yes --token "$VERCEL_TOKEN")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Deployment: $URL"
+
+      - name: Attach the monthly link
+        run: |
+          npx vercel alias set "${{ steps.deploy.outputs.url }}" "${{ steps.link.outputs.name }}.vercel.app" --token "$VERCEL_TOKEN" --scope "$VERCEL_ORG_ID"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Dashboard deployed"
+            echo ""
+            echo "Monthly link: https://${{ steps.link.outputs.name }}.vercel.app"
+            echo ""
+            echo "Deployment: ${{ steps.deploy.outputs.url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

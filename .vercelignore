@@ -1,0 +1,5 @@
+monthly-docs
+scripts
+venv
+data/history
+*.docx

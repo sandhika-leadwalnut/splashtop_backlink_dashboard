@@ -1,0 +1,35 @@
+{
+  "_note": "Business Impact charts: one chart per category, keywords shown in this order. A keyword from the doc that is not listed here is added to the last category with a warning.",
+  "categories": [
+    {
+      "title": "Remote Access / Support Keywords",
+      "keywords": [
+        "remote access",
+        "remote access software",
+        "remote support",
+        "remote support software",
+        "remote desktop",
+        "remote desktop software"
+      ]
+    },
+    {
+      "title": "Competitor Comparison Keywords",
+      "keywords": [
+        "teamviewer alternative",
+        "teamviewer pricing",
+        "logmein alternative",
+        "logmein pricing",
+        "anydesk alternative",
+        "anydesk pricing"
+      ]
+    },
+    {
+      "title": " AEM & PM keywords",
+      "keywords": [
+        "patch management",
+        "patch management software",
+        "autonomous endpoint management"
+      ]
+    }
+  ]
+}
