@@ -2,7 +2,7 @@
   "meta": {
     "client": "Splashtop",
     "reportMonth": "2026-09",
-    "reportDate": "October 13, 2026",
+    "reportDate": "October 14, 2026",
     "reportTitle": "Backlink Performance Summary Report",
     "reportSubtitle": "Country: US | Source: Ahrefs, GSC",
     "baselineLabel": "Dec 2025 (Baseline)",
@@ -11,7 +11,7 @@
     "currentMonthAbbr": "Sep",
     "linkName": "splashtop-backlinking-dashboard-september2026",
     "sourceFile": "2026-09 Backlink Performance Dashboard data.docx",
-    "generatedAt": "2026-10-13T09:49:06"
+    "generatedAt": "2026-10-14T09:07:44"
   },
   "kpis": {
     "urlsTracked": 15,
