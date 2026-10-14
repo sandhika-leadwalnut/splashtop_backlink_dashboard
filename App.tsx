@@ -13,7 +13,7 @@ import BacklinkGrowthChart from "./components/BacklinkGrowthChart";
 import KeywordPerformance from "./components/KeywordPerformance";
 import PerformanceSummaryTable from "./components/PerformanceSummaryTable";
 import ReferringDomainsChart from "./components/ReferringDomainsChart";
-import BusinessImpactOfBacklinks from "./components/BusinessImpactOfBacklinks";
+// import BusinessImpactOfBacklinks from "./components/BusinessImpactOfBacklinks";
 import ImplementationDetails from "./components/ImplementationDetails";
 import KeyFindings from "./components/KeyFindings";
 import BacklinkBestPractices from "./components/BacklinkBestPractices";
@@ -71,7 +71,7 @@ const App: React.FC = () => {
           />
         </div>
 
-        <BusinessImpactOfBacklinks />
+        {/* Business Impact section hidden on request (Aug 2026 report) */}
 
         <ReferringDomainsChart data={referringDomainsData} />
 
