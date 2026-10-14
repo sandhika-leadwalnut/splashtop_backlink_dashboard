@@ -1,23 +1,23 @@
 {
   "meta": {
     "client": "Splashtop",
-    "reportMonth": "2026-09",
+    "reportMonth": "2026-08",
     "reportDate": "October 14, 2026",
     "reportTitle": "Backlink Performance Summary Report",
     "reportSubtitle": "Country: US | Source: Ahrefs, GSC",
     "baselineLabel": "Dec 2025 (Baseline)",
-    "currentLabel": "September 2026",
-    "currentMonthName": "September",
-    "currentMonthAbbr": "Sep",
-    "linkName": "splashtop-backlinking-dashboard-september2026",
-    "sourceFile": "2026-09 Backlink Performance Dashboard data.docx",
-    "generatedAt": "2026-10-14T09:07:44"
+    "currentLabel": "August 2026",
+    "currentMonthName": "August",
+    "currentMonthAbbr": "Aug",
+    "linkName": "splashtop-backlinking-dashboard-august2026",
+    "sourceFile": "2026-08 Backlink Performance Dashboard data.docx",
+    "generatedAt": "2026-10-14T09:17:32"
   },
   "kpis": {
     "urlsTracked": 15,
     "keywordsTracked": 35,
-    "planTotalBacklinks": 455,
-    "totalBacklinks": 421
+    "planTotalBacklinks": 420,
+    "totalBacklinks": 381
   },
   "businessImpact": [
     {
@@ -36,7 +36,7 @@
         {
           "keyword": "remote support",
           "baseline": 8,
-          "current": 11
+          "current": 10
         },
         {
           "keyword": "remote support software",
@@ -46,15 +46,15 @@
         {
           "keyword": "remote desktop",
           "baseline": 12,
-          "current": 12
+          "current": 29
         },
         {
           "keyword": "remote desktop software",
           "baseline": 20,
-          "current": 22
+          "current": 31
         }
       ],
-      "insight": "Informational keywords continue to deliver strong visibility, with 'remote access (5)' securing a top 5 position, while 'remote desktop (12)' and 'remote support (11)' maintain stable rankings."
+      "insight": "Remote access and remote desktop keywords continue to deliver strong visibility, with 'remote access (5)' maintaining a top 5 position, while 'remote desktop (29)' continues to rank within the top 30."
     },
     {
       "title": "Competitor Comparison Keywords",
@@ -62,27 +62,27 @@
         {
           "keyword": "teamviewer alternative",
           "baseline": 7,
-          "current": 2
+          "current": 5
         },
         {
           "keyword": "teamviewer pricing",
           "baseline": 20,
-          "current": 4
+          "current": 5
         },
         {
           "keyword": "logmein alternative",
           "baseline": 22,
-          "current": 9
+          "current": 18
         },
         {
           "keyword": "logmein pricing",
           "baseline": 11,
-          "current": 44
+          "current": 39
         },
         {
           "keyword": "anydesk alternative",
           "baseline": 20,
-          "current": 9
+          "current": 7
         },
         {
           "keyword": "anydesk pricing",
@@ -90,7 +90,7 @@
           "current": 4
         }
       ],
-      "insight": "Competitor keywords continue to strengthen, with 5 out of 6 keywords ranking in the top 10 positions, including 3 keywords ranking in the top 5."
+      "insight": "Competitor keywords continue to strengthen, with 'anydesk pricing (4)' and 'teamviewer alternative (5)' ranking in the top 5, while 'teamviewer pricing (5)' maintains its top 5 position and 'anydesk alternative (7)' moves into the top 10."
     },
     {
       "title": " AEM & PM keywords",
@@ -98,7 +98,7 @@
         {
           "keyword": "patch management",
           "baseline": 62,
-          "current": 5
+          "current": 6
         },
         {
           "keyword": "patch management software",
@@ -111,28 +111,28 @@
           "current": 5
         }
       ],
-      "insight": "Patch management and endpoint management keywords continue to show strong performance, with 2 out of 3 keywords ranking in the top 5 positions."
+      "insight": "'teamviewer pricing (5)' now ranking in the top 5, while 'teamviewer alternative (9)' maintains a first-page position."
     }
   ],
   "referringDomains": {
     "data": [
       {
         "name": "DA 71-100",
-        "value": 62,
+        "value": 53,
         "color": "#14b8a6"
       },
       {
         "name": "DA 41-70",
-        "value": 317,
+        "value": 287,
         "color": "#3b82f6"
       },
       {
         "name": "DA 25-40",
-        "value": 42,
+        "value": 41,
         "color": "#22c55e"
       }
     ],
-    "qualityStatement": "Approximately 90% of referring domains fall within the DA 41–100 range, reflecting a strong and credible backlink profile supported by a substantial number of high-quality, authoritative referring websites."
+    "qualityStatement": "Approximately 89% of referring domains fall within the DA 41–100 range, reflecting a strong and credible backlink profile supported by a substantial number of high-quality, authoritative referring websites."
   },
   "monthlyBacklinkGrowth": [
     {
@@ -162,16 +162,12 @@
     {
       "month": "Aug",
       "backlinks": 35
-    },
-    {
-      "month": "Sep",
-      "backlinks": 40
     }
   ],
   "keywordRanking": {
     "topFive": {
       "baseline": 0,
-      "current": 6,
+      "current": 5,
       "keywords": [
         {
           "keyword": "remote access",
@@ -183,25 +179,19 @@
           "keyword": "teamviewer alternative",
           "url": "https://www.splashtop.com/compare/teamviewer-alternative",
           "baselineRank": 7,
-          "currentRank": 2
+          "currentRank": 5
         },
         {
           "keyword": "teamviewer pricing",
           "url": "https://www.splashtop.com/blog/teamviewer-pricing-comparison",
           "baselineRank": 20,
-          "currentRank": 4
+          "currentRank": 5
         },
         {
           "keyword": "anydesk pricing",
           "url": "https://www.splashtop.com/blog/anydesk-pricing-comparison",
           "baselineRank": 8,
           "currentRank": 4
-        },
-        {
-          "keyword": "patch management",
-          "url": "https://www.splashtop.com/blog/what-is-patch-management",
-          "baselineRank": 62,
-          "currentRank": 5
         },
         {
           "keyword": "autonomous endpoint management",
@@ -221,9 +211,9 @@
           "rank": 7
         },
         {
-          "keyword": "logmein alternative",
-          "url": "https://www.splashtop.com/compare/logmein-alternative",
-          "rank": 22
+          "keyword": "remote support",
+          "url": "https://www.splashtop.com/blog/what-is-remote-support",
+          "rank": 8
         },
         {
           "keyword": "teamviewer alternative",
@@ -263,24 +253,19 @@
           "rank": 5
         },
         {
-          "keyword": "teamviewer alternative",
-          "url": "https://www.splashtop.com/compare/teamviewer-alternative",
-          "rank": 2
+          "keyword": "remote support",
+          "url": "https://www.splashtop.com/blog/what-is-remote-support",
+          "rank": 10
         },
         {
           "keyword": "teamviewer pricing",
           "url": "https://www.splashtop.com/blog/teamviewer-pricing-comparison",
-          "rank": 4
+          "rank": 5
         },
         {
-          "keyword": "logmein alternative",
-          "url": "https://www.splashtop.com/compare/logmein-alternative",
-          "rank": 9
-        },
-        {
-          "keyword": "anydesk alternative",
-          "url": "https://www.splashtop.com/compare/anydesk-alternative",
-          "rank": 9
+          "keyword": "teamviewer alternative",
+          "url": "https://www.splashtop.com/compare/teamviewer-alternative",
+          "rank": 5
         },
         {
           "keyword": "anydesk pricing",
@@ -288,9 +273,14 @@
           "rank": 4
         },
         {
+          "keyword": "anydesk alternative",
+          "url": "https://www.splashtop.com/compare/anydesk-alternative",
+          "rank": 7
+        },
+        {
           "keyword": "patch management",
           "url": "https://www.splashtop.com/blog/what-is-patch-management",
-          "rank": 5
+          "rank": 6
         },
         {
           "keyword": "autonomous endpoint management",
@@ -306,7 +296,7 @@
       "paChange": 1,
       "bestKeywordMove": {
         "keyword": "what is remote access",
-        "change": "+5"
+        "change": "+4"
       },
       "worstKeywordMove": {
         "keyword": "benefits of remote access",
@@ -327,7 +317,7 @@
       "bestKeywordMove": null,
       "worstKeywordMove": {
         "keyword": "remote desktop",
-        "change": "-8"
+        "change": "-25"
       },
       "overallStatus": "Negative"
     },
@@ -336,26 +326,23 @@
       "paChange": 1,
       "bestKeywordMove": {
         "keyword": "remote desktop program",
-        "change": "+28"
+        "change": "+20"
       },
       "worstKeywordMove": {
         "keyword": "remote desktop software",
-        "change": "-2"
+        "change": "-11"
       },
       "overallStatus": "Positive"
     },
     {
       "url": "https://www.splashtop.com/blog/what-is-remote-support",
       "paChange": 9,
-      "bestKeywordMove": {
-        "keyword": "remote desktop support",
-        "change": "+3"
-      },
+      "bestKeywordMove": null,
       "worstKeywordMove": {
-        "keyword": "remote support",
-        "change": "-3"
+        "keyword": "remote desktop support",
+        "change": "-5"
       },
-      "overallStatus": "Positive"
+      "overallStatus": "Negative"
     },
     {
       "url": "https://www.splashtop.com/products/remote-support",
@@ -378,11 +365,8 @@
       "url": "https://www.splashtop.com/solutions/patch-management",
       "paChange": 6,
       "bestKeywordMove": null,
-      "worstKeywordMove": {
-        "keyword": "automated patch management solution",
-        "change": "-14"
-      },
-      "overallStatus": "Negative"
+      "worstKeywordMove": null,
+      "overallStatus": "Stable"
     },
     {
       "url": "https://www.splashtop.com/blog/autonomous-endpoint-management-comprehensive-guide",
@@ -399,7 +383,7 @@
       "paChange": 0,
       "bestKeywordMove": {
         "keyword": "teamviewer alternative",
-        "change": "+5"
+        "change": "+2"
       },
       "worstKeywordMove": null,
       "overallStatus": "Positive"
@@ -409,7 +393,7 @@
       "paChange": 0,
       "bestKeywordMove": {
         "keyword": "teamviewer pricing",
-        "change": "+16"
+        "change": "+15"
       },
       "worstKeywordMove": null,
       "overallStatus": "Positive"
@@ -419,7 +403,7 @@
       "paChange": 0,
       "bestKeywordMove": {
         "keyword": "anydesk alternative",
-        "change": "+11"
+        "change": "+13"
       },
       "worstKeywordMove": null,
       "overallStatus": "Positive"
@@ -439,7 +423,7 @@
       "paChange": 1,
       "bestKeywordMove": {
         "keyword": "logmein alternative",
-        "change": "+13"
+        "change": "+4"
       },
       "worstKeywordMove": null,
       "overallStatus": "Positive"
@@ -450,7 +434,7 @@
       "bestKeywordMove": null,
       "worstKeywordMove": {
         "keyword": "logmein pricing",
-        "change": "-33"
+        "change": "-28"
       },
       "overallStatus": "Negative"
     }
@@ -458,60 +442,60 @@
   "acquisitionSheetUrl": "https://docs.google.com/spreadsheets/d/1n4DS4gZ-HHtsGh5CXGdxUHXd8dlTbX01LcWD3OHnGxM/edit?usp=sharing",
   "keyFindings": [
     {
-      "description": "The backlink profile continues to maintain strong domain quality, **with approximately 90% of referring domains having a DA between 41–100.**"
+      "description": "**Remote access and support keywords** continue to maintain strong visibility, with **'remote access (5)' ranking in the top 5 and 'remote support (10)'** securing a first-page position."
     },
     {
-      "description": "**Page authority improved across both informational and commercial pages**, with notable gains in the remote support, remote desktop, and patch management categories."
+      "description": "**Approximately 89% of referring domains have a DA between 41–100**, reflecting a strong backlink profile supported by authoritative and credible websites."
     },
     {
-      "description": "Competitor keyword category continues to gain search visibility, **with 5 keywords securing top 10 positions.**"
+      "description": "Most of the **competitor keywords** are showing great improvement, with **three keywords now ranking in the top 10 positions**."
     },
     {
-      "description": "Patch management and endpoint management keywords showed strong ranking gains, **with both keywords reaching the top 5 positions.**"
+      "description": "**Domain authority improved for a key referring domain**, with the DA increasing from **43 to 48** for the domain associated with **'remote access software.'**"
     }
   ],
   "highlights": [
     {
-      "title": "Sustained Top 5 Visibility for “Remote Access”",
-      "description": "Splashtop has sustained Top 5 visibility for “remote access” over the past few months. Following a recent dip during the spam update, the keyword has recovered to the Top 5, supported by consistent high-quality backlink acquisition.",
-      "image": "/reports/2026-09/highlight-1-sustained-top-5-visibility-for.png"
+      "title": "“Remote Access” Maintains Strong Top 5 Visibility",
+      "description": "The “Remote Access” keyword continued its upward trajectory, reaching #5 in August and maintaining strong visibility for one of Splashtop’s core search categories.",
+      "image": "/reports/2026-08/highlight-1-remote-access-maintains-strong.png"
     },
     {
-      "title": "“TeamViewer Pricing” Regains Top 5 Stability",
-      "description": "Splashtop’s “TeamViewer pricing” keyword has regained Top 5 visibility after a temporary decline following the spam update and has remained stable, supported by consistent high-quality backlink acquisition.",
-      "image": "/reports/2026-09/highlight-2-teamviewer-pricing-regains-top.png"
+      "title": "Major Ranking Breakthrough for “Patch Management”",
+      "description": "The “Patch Management” keyword made a substantial jump from the 40s into the Top 10, reaching #6 in August and significantly expanding visibility for this priority category.",
+      "image": "/reports/2026-08/highlight-2-major-ranking-breakthrough-for.png"
     },
     {
-      "title": "Stable Top 5 Performance for “LogMeIn Alternative”",
-      "description": "Splashtop’s “LogMeIn alternative” page has moved from outside the Top 100 to sustained Top 5 visibility, with the ranking remaining consistently strong following the initial improvement.",
-      "image": "/reports/2026-09/highlight-3-stable-top-5-performance-for-l.png"
+      "title": "“TeamViewer Pricing” Strengthens Competitive Visibility",
+      "description": "The “TeamViewer Pricing” keyword recovered from ranking fluctuations and reached #5.3 in August, strengthening Splashtop’s position in a key competitor-focused search.",
+      "image": "/reports/2026-08/highlight-3-teamviewer-pricing-strengthens.png"
+    },
+    {
+      "title": "“AnyDesk Pricing” Secures a Top 5 Ranking",
+      "description": "The “AnyDesk Pricing” keyword strengthened from a lower first-page position to #3.8 in August, establishing a strong Top 5 position and improving visibility for a high-intent pricing search.",
+      "image": "/reports/2026-08/highlight-4-anydesk-pricing-secures-a-top.png"
     }
   ],
   "llmHighlights": [
     {
       "title": "Strongest AI Visibility Across Key Categories",
-      "description": "Splashtop achieves AI visibility across 9 of the 10 tracked priority topics, with Top 2 positions across 7 topics, demonstrating broad and consistent presence across key solution categories.",
-      "image": "/reports/2026-09/llm-1-strongest-ai-visibility-across.png"
+      "description": "Splashtop is the only player represented across all 10 priority topics, with Top 2 rankings across 8 of the 10, demonstrating the broadest and strongest AI visibility across the tracked categories.",
+      "image": "/reports/2026-08/llm-1-strongest-ai-visibility-across.png"
     },
     {
-      "title": "Leading AI Brand Mention Share for “Remote Desktop”",
-      "description": "Splashtop holds the highest AI brand mention share at 27.2% for “remote desktop,” outperforming tracked competitors and demonstrating a leading presence in AI-generated responses for this business-critical topic.",
-      "image": "/reports/2026-09/llm-2-leading-ai-brand-mention-share.png"
+      "title": "#1 AI Mention Share in Remote Access",
+      "description": "Splashtop secured the highest share of AI brand mentions at 27.7%, maintaining a clear lead over TeamViewer and other tracked competitors across the monitored remote access prompts.",
+      "image": "/reports/2026-08/llm-2-1-ai-mention-share-in-remote-a.png"
     },
     {
-      "title": "Dominant AI Brand Presence in AEM",
-      "description": "Splashtop captures 37.7% of AI brand mentions in the AEM category, more than 2x the next competitor, highlighting a significant lead in AI-generated AEM discussions.",
-      "image": "/reports/2026-09/llm-3-dominant-ai-brand-presence-in.png"
+      "title": "Dominant AI Citation Share in Remote Support",
+      "description": "Splashtop captured the highest AI citation share in the Remote Support category at 28.9%, leading TeamViewer by more than 11 percentage points and strengthening its visibility across AI-generated responses.",
+      "image": "/reports/2026-08/llm-3-dominant-ai-citation-share-in.png"
     },
     {
-      "title": "Strong AI Citation Leadership in Remote Access",
-      "description": "Splashtop accounts for 31.2% of AI citations in the Remote Access category, the highest share among tracked competitors, reinforcing its authority in AI-generated responses.",
-      "image": "/reports/2026-09/llm-4-strong-ai-citation-leadership.png"
-    },
-    {
-      "title": "High AI Citation Share in Remote Support",
-      "description": "Splashtop captured 30.0% of AI citations for Remote Support, 1.6x the share of the next competitor, highlighting a substantial lead in AI-generated visibility for the category.",
-      "image": "/reports/2026-09/llm-5-high-ai-citation-share-in-remo.png"
+      "title": "Leading AI Citation Presence in AEM",
+      "description": "Splashtop secured a 28.1% AI citation share in the AEM category, tying for the highest share among tracked competitors and establishing a leading position in AI-generated AEM responses.",
+      "image": "/reports/2026-08/llm-4-leading-ai-citation-presence-i.png"
     }
   ]
 }

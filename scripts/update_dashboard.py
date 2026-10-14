@@ -528,7 +528,7 @@ def main():
     key_findings = parse_key_findings(blocks)
     llm = parse_cards(blocks, lambda t: t.startswith("llm highlights"), lambda t: t == "highlights",
                       "LLM highlight", images_out, "llm")
-    highlights = parse_cards(blocks, lambda t: t == "highlights", lambda t: False,
+    highlights = parse_cards(blocks, lambda t: t == "highlights", lambda t: t.startswith("llm highlights"),
                              "Highlight", images_out, "highlight")
 
     # ---- link name
