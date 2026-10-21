@@ -15,6 +15,9 @@ Repo: **https://github.com/sandhika-leadwalnut/splashtop_backlink_dashboard** (o
 6. **Say "yes" to publish.** Claude pushes to GitHub itself. GitHub Actions deploys to Vercel and attaches the link.
 7. **Claude waits for the deploy (about 1 to 2 minutes) and gives you the final link in the chat**:
    `https://<link name>.vercel.app`
+8. **Claude records the link in the [Backlink Dashboard URLs](https://docs.google.com/document/d/1LgqVfKNtLLj7GPX1dQcrJPvhCqfo1t8oHCejcSM4C9Y/edit) Google Doc**, **Splashtop** tab. One line per month:
+   `September 2026 | https://...-september2026.vercel.app | Updated 21 Oct 2026 by Kritika`
+   Publishing the same month again (a correction or a new link name) **overwrites that month's line** with the latest link, so each month always shows exactly one current link. A new month adds a new line.
 
 The preview page is private to the person who ran the update. To let a colleague review it before publishing, use the page's **Share** menu.
 
@@ -34,6 +37,7 @@ Link name rules: lowercase letters, numbers and `-` only (no `_` or spaces), up 
 | GitHub secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` | To do: repo **Settings** > **Secrets and variables** > **Actions** > **Secrets**. The token must be **team-scoped (Leadwalnut)**, not project-scoped, or attaching the link fails with "User not found". The same team token as Fortinet works. `VERCEL_PROJECT_ID` is the new Splashtop project's ID. |
 | Public access to the links | Vercel project **Settings** > **Deployment Protection** > turn **Vercel Authentication** off, otherwise the links ask for a Vercel login. |
 | Each person who runs updates | Needs GitHub linked in Claude (**Settings** > **Connectors** > **GitHub**) and Write access to the repo (repo **Settings** > **Collaborators**). |
+| Links log (Google Doc) | Share [Backlink Dashboard URLs](https://docs.google.com/document/d/1LgqVfKNtLLj7GPX1dQcrJPvhCqfo1t8oHCejcSM4C9Y/edit) as **Editor** with each person's Google account, and each person connects **Google Docs** in Claude (**Settings** > **Connectors**) with that same account. Without Editor access the dashboard still publishes, but Claude can't record the link and gives the line to paste instead. |
 | Repo visibility | Recommended: private (repo **Settings** > General > Danger Zone). |
 
 The repo's `vercel.json` switches off Vercel's own deploy-on-push. GitHub Actions does the deploying.
@@ -81,6 +85,7 @@ Known differences (the new version follows the Word doc):
 | Deploy fails at **Attach the monthly link**: domain in use | That link name belongs to another Vercel project. Publish again with a different link name. |
 | Deploy fails at **Check the build works** | Tell Claude; it will re-check the doc and say what to fix. |
 | A month's link shows wrong data | Send Claude the corrected doc and use the same link name. Only that link changes. |
+| Claude says the link was not recorded in the Backlink Dashboard URLs doc | Connect Google Docs in Claude and ask the doc owner for **Editor** access (view access is not enough). Then paste the line Claude gave, or ask Claude to record it again. |
 | Need an old month's data | `data/history/<YYYY-MM>.json` and `monthly-docs/` in the repo keep every month. |
 
 Manual fallback (no Claude): GitHub > **Actions** > **Deploy monthly dashboard** > **Run workflow**, optionally with a link name. This redeploys whatever month is currently in the repo.
