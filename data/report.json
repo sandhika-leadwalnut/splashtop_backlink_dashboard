@@ -11,13 +11,13 @@
     "currentMonthAbbr": "Oct",
     "linkName": "splashtop-backlinking-dashboard-october2026",
     "sourceFile": "2026-10 Backlink Performance Dashboard data.docx",
-    "generatedAt": "2026-11-04T07:25:01"
+    "generatedAt": "2026-11-04T11:43:26"
   },
   "kpis": {
     "urlsTracked": 15,
     "keywordsTracked": 35,
     "planTotalBacklinks": 480,
-    "totalBacklinks": 422
+    "totalBacklinks": 423
   },
   "businessImpact": [
     {
@@ -90,7 +90,7 @@
           "current": 4
         }
       ],
-      "insight": "Competitor keywords continue to perform strongly, with 5 out of 6 keywords ranking in the top 10 positions, including 2 keywords securing top 5 positions."
+      "insight": "Most of the competitor keywords showed significant improvement, with 5 keywords now ranking in the top 10 positions."
     },
     {
       "title": " AEM & PM keywords",
@@ -123,7 +123,7 @@
       },
       {
         "name": "DA 41-70",
-        "value": 318,
+        "value": 319,
         "color": "#3b82f6"
       },
       {
@@ -161,7 +161,7 @@
     },
     {
       "month": "Aug",
-      "backlinks": 35
+      "backlinks": 36
     },
     {
       "month": "Sep",
@@ -190,13 +190,13 @@
           "currentRank": 1
         },
         {
-          "keyword": "teamViewer pricing",
+          "keyword": "teamviewer pricing",
           "url": "https://www.splashtop.com/blog/teamviewer-pricing-comparison",
           "baselineRank": 20,
           "currentRank": 5
         },
         {
-          "keyword": "anyDesk pricing",
+          "keyword": "anydesk pricing",
           "url": "https://www.splashtop.com/blog/anydesk-pricing-comparison",
           "baselineRank": 8,
           "currentRank": 4
@@ -473,7 +473,7 @@
   "acquisitionSheetUrl": "https://docs.google.com/spreadsheets/d/1n4DS4gZ-HHtsGh5CXGdxUHXd8dlTbX01LcWD3OHnGxM/edit?usp=sharing",
   "keyFindings": [
     {
-      "description": "First-page keyword visibility expanded in October, **with 10 target keywords ranking in the top 10 positions**, reflecting stronger organic search presence."
+      "description": "First-page keyword visibility expanded in October, **with 10 out of 15 target keywords ranking in the top 10 positions**, reflecting stronger organic search presence."
     },
     {
       "description": "**'Remote access software' achieved the #1 ranking in October**, marking a strong recovery after remaining unranked for several months."
