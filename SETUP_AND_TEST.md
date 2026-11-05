@@ -4,8 +4,9 @@ Repo: **https://github.com/sandhika-leadwalnut/splashtop_backlink_dashboard** (o
 
 ## The flow
 
-1. **Attach the month's Excel workbook** (or, as before, the Word doc) in a new Claude chat and type: *Update the Splashtop dashboard with this sheet*.
-   The workbook template and a filled October 2026 example are in the repo under `templates/`. Easiest: copy last month's workbook and update the numbers, texts and screenshots (paste each screenshot over column E of its row in the Highlights sheet).
+1. **Update the Splashtop workbook and attach it** in a new Claude chat: *Update the Splashtop dashboard with this sheet*.
+   The workbook holds **all months, one tab per month** (like the Word doc's tabs). Each month: right-click last month's tab > **Duplicate** (Excel: **Move or Copy** > **Create a copy**), rename it like `Nov 2026`, update the numbers, texts and screenshots (paste each screenshot on its highlight's row, from column I). Claude uses the newest month tab. To redo an older month, say which tab: *"use the Sep 2026 tab"*.
+   The starting workbook (Aug, Sep, Oct 2026 already filled) is `templates/Splashtop Dashboard Data.xlsx` in the repo. The Word doc still works too.
 2. **Claude checks the file** and builds the data and the screenshots. If something is wrong (a missing value, text in a rank cell), Claude tells you which sheet and row to fix. You get a short summary plus anything to double-check.
 3. **Claude shows you the dashboard in the chat** as a private preview page, exactly as it will look when published (charts, tables, screenshots, links). Nothing is public yet.
 4. **Ask for corrections, if any.** Tell Claude what to change, e.g. *"key finding 3 should say 6 keywords"*, *"typo in the TeamViewer highlight"*, *"use this screenshot for LLM highlight 2"* (attach it). Claude applies the changes and refreshes the same preview. Repeat until it looks right.
@@ -75,13 +76,14 @@ Known differences (the new version follows the Word doc):
 
 ---
 
-## Test the Excel input with the October example
+## Test the Excel input
 
 1. Save the latest `splashtop-dashboard-monthly-update` skill (from the card in the chat).
-2. Open a **new** Claude chat, attach `Splashtop Dashboard Data - Oct 2026.xlsx` and type *Update the Splashtop dashboard with this sheet*.
+2. Open a **new** Claude chat, attach `Splashtop Dashboard Data.xlsx` (Aug, Sep, Oct 2026 tabs) and type *Update the Splashtop dashboard with this sheet*. Claude picks the **Oct 2026** tab.
 3. The preview should look exactly like https://splashtop-backlinking-dashboard-october2026.vercel.app (same numbers, texts and 10 screenshots).
 4. At the link question type a test name, e.g. **`splashtop-backlinking-dashboard-october2026-excel-test`**, so the real October link is not replaced. Say **yes** to publish, then compare the two links.
 5. Claude will ask before recording a `test` link in the Backlink Dashboard URLs doc: answer **no**.
+6. Optional: in the same chat say *"now do the Sep 2026 tab"* and give a test link name again.
 
 ## Troubleshooting
 
@@ -95,7 +97,8 @@ Known differences (the new version follows the Word doc):
 | Deploy fails at **Check the build works** | Tell Claude; it will re-check the doc and say what to fix. |
 | A month's link shows wrong data | Send Claude the corrected doc and use the same link name. Only that link changes. |
 | Claude says the link was not recorded in the Backlink Dashboard URLs doc | Connect Google Docs in Claude and ask the doc owner for **Editor** access (view access is not enough). Then paste the line Claude gave, or ask Claude to record it again. |
-| Claude says a screenshot was not found, or a picture shows `#VALUE!` in Excel | The picture was added with **Place in Cell**. Right-click it > **Place over Cells**, move it onto column E of its row, save and attach again. |
-| Need an old month's data | `data/history/<YYYY-MM>.json`, `monthly-data/` (Excel) and `monthly-docs/` (Word) in the repo keep every month. |
+| Claude says a screenshot was not found, or a picture shows `#VALUE!` in Excel | The picture was added with **Place in Cell**. Right-click it > **Place over Cells**, move it onto its highlight's row (from column I), save and attach again. |
+| Claude used the wrong month | Tell Claude which tab to use, e.g. *"use the Nov 2026 tab"*. Tab names must look like `Nov 2026`, and the Overview "Report month" must match the tab name. |
+| Need an old month's data | `data/history/<YYYY-MM>.json`, `monthly-data/` (the Excel workbook, every version in git history) and `monthly-docs/` (Word) in the repo keep every month. |
 
 Manual fallback (no Claude): GitHub > **Actions** > **Deploy monthly dashboard** > **Run workflow**, optionally with a link name. This redeploys whatever month is currently in the repo.

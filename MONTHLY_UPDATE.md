@@ -53,20 +53,24 @@ Keep the layout of the September 2026 doc:
 
 ## Excel workbook (replaces the Word doc)
 
-Template: `templates/Splashtop Dashboard Data - TEMPLATE.xlsx`. Filled example: `templates/Splashtop Dashboard Data - Oct 2026.xlsx` (gives exactly the published October 2026 dashboard). Easiest each month: copy last month's workbook and update it. Rebuild both with `scripts/make_excel_template.py` (see its header).
+One workbook for all months, like the Word doc's tabs: **one tab per month**, named like `Oct 2026`. `templates/Splashtop Dashboard Data.xlsx` has Aug, Sep and Oct 2026 filled in (each tab rebuilds that month's published dashboard exactly). `templates/Splashtop Dashboard Data - TEMPLATE.xlsx` is blank (one `Mon YYYY` tab to rename). Rebuild both with `scripts/make_excel_template.py` (see its header).
 
-Do not rename the sheets or the header row (row 2). Rows can be added or removed. Ranks are whole numbers; `101` = not in top 100; blank or `-` = no data.
+Each month: duplicate last month's tab, rename it (`Nov 2026`), update it, attach the whole workbook. `update_from_excel.py` uses the newest month tab, or the one given with `--month "Sep 2026"` (to redo an older month). In the repo the workbook is kept as `monthly-data/Splashtop Dashboard Data.xlsx` (git history keeps every version).
 
-| Sheet | Columns | Becomes |
+Inside a month tab the sections sit one under another. Each starts with a green row whose column A is exactly the section name, then a header row, then the data. Keep the green rows and header rows; rows can be added or removed inside a section. Ranks are whole numbers (`12` or `12th`); `101` = not in top 100; blank or `-` = no data.
+
+| Section | Columns | Becomes |
 |---|---|---|
-| Overview | Field / Value: Report month (`Oct 2026`), Baseline month, Report date (blank = publishing day), URLs tracked, Keywords tracked, Plan total backlinks, Actual total backlinks, Top 5 baseline/current, Page 1 baseline/current, Monthly backlinks sheet link, Dashboard link name (optional) | KPI cards, header, keyword counts, sheet link, link name |
-| Business Impact | Chart, Keyword, Baseline rank, Current rank | The three charts. Chart must be one of the titles in `data/business-impact.json`; rows show in sheet order |
+| Overview | Field / Value: Report month (same as the tab name), Baseline month, Report date (blank = publishing day), URLs tracked, Keywords tracked, Plan total backlinks, Actual total backlinks, Top 5 baseline/current, Page 1 baseline/current, Monthly backlinks sheet link, Dashboard link name (optional) | KPI cards, header, keyword counts, sheet link, link name |
+| Business Impact | Chart, Keyword, Baseline rank, Current rank | The three charts. Chart must be one of the titles in `data/business-impact.json`; rows show in this order |
 | Chart Insights | Chart, Insight | Key takeaway under each chart |
 | Referring Domains | DA range (`DA 41-70`), Referring domains | DA split + quality statement (% in DA 41-100) |
 | Monthly Growth | Month (`Feb 2026`), Backlinks added | Monthly growth chart |
 | Keyword Lists | List (`Top 5` / `Page 1`), Keyword, Baseline rank, Current rank, URL (optional) | Keyword ranking lists. Blank URL = found from `data/url-config.json` |
-| URL Rankings | URL (first row of each block), Metric (`Total Backlinks`, each keyword, `Page Authority`), one column per month from baseline to current | Performance Summary (PA change, best/worst move, status, same rules as below). URLs must match `data/url-config.json` |
+| URL Rankings | URL (first row of each block), Metric (`Total Backlinks`, each keyword, `Page Authority`), one column per month from baseline to current | Performance Summary (PA change, best/worst move, status, same rules as above). URLs must match `data/url-config.json` |
 | Key Findings | #, Finding | Key findings; Excel bold is kept as bold |
-| Highlights | Type (`Highlight` / `LLM Highlight`), #, Title, Description, picture pasted over column E of the row, or a file name in column F | Highlights and LLM highlights with their screenshots (`public/reports/<YYYY-MM>/`) |
+| Highlights | Type (`Highlight` / `LLM Highlight`), Title, Description, screenshot pasted on the same row from column I (or its file name in column I) | Highlights and LLM highlights with their screenshots (`public/reports/<YYYY-MM>/`) |
 
-Screenshots: a picture belongs to the row its top-left corner sits on. Pictures added with Excel's **Place in Cell** cannot be read; use a normal paste (floating picture). If a picture is not in the sheet, put its file name in column F and pass the attached images with `--images-dir`.
+Screenshots: a picture belongs to the row its top-left corner sits on. Pictures added with Excel's **Place in Cell** cannot be read; use a normal paste (floating picture). If a picture is not in the tab, put its file name in column I and pass the attached images with `--images-dir`.
+
+Checks: the Overview "Report month" must match the tab name; two tabs for the same month is a problem; if plan and actual totals equal the previous month's tab, the script warns that the tab may not have been updated.

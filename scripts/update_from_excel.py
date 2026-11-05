@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""Splashtop monthly data workbook (.xlsx) -> data/report.json + screenshots.
+"""Splashtop dashboard workbook (.xlsx, one tab per month) -> data/report.json + screenshots.
 
 Same output and the same calculation rules as update_dashboard.py (the Word-doc version);
 only the input is different. Layout of the workbook: see scripts/make_excel_template.py
 and MONTHLY_UPDATE.md ("Excel workbook").
 
 Usage (from the repo root):
-    python3 -B scripts/update_from_excel.py "monthly-data/<YYYY-MM> Splashtop Dashboard Data.xlsx" --dry-run
-    python3 -B scripts/update_from_excel.py "<file>.xlsx" --report-date "November 4, 2026" [--images-dir <folder>]
+    python3 -B scripts/update_from_excel.py "monthly-data/Splashtop Dashboard Data.xlsx" [--month "Oct 2026"] --dry-run
+    python3 -B scripts/update_from_excel.py "<file>.xlsx" [--month "Oct 2026"] [--report-date "November 4, 2026"] [--images-dir <folder>]
 
---images-dir: folder with screenshots named in the Highlights sheet's "Screenshot file" column
-(used when a picture is not pasted into the sheet).
+--month: which month tab to use. Default: the newest tab named like "Oct 2026".
+--images-dir: folder with screenshots named in the Highlights section (column I)
+(used when a picture is not pasted into the tab).
 """
 import argparse
 import datetime as dt
@@ -102,7 +103,7 @@ def number(v, where, allow_none=True):
         problems.append(f"{where}: '{v}' should be a whole number.")
         return None
     s = text(v).replace(",", "")
-    m = re.fullmatch(r"[#]?\s*(\d+)\+?", s)
+    m = re.fullmatch(r"[#]?\s*(\d+)(?:\+|st|nd|rd|th)?", s, re.I)
     if m:
         return int(m.group(1))
     if re.fullmatch(r">\s*100|100\+|not in top 100|nr|not ranking", s, re.I):
@@ -122,33 +123,59 @@ def parse_month(v):
     return ud.mi(m.group(1)), (2000 + y if y < 100 else y)
 
 
-def sheet(wb, name):
-    for ws in wb.worksheets:
-        if ws.title.strip().lower() == name.lower():
-            return ws
-    problems.append(f"Sheet '{name}' is missing from the workbook (do not rename the sheets).")
-    return None
-
-
-def rows_of(ws, header_row=2):
-    """Data rows under the header as lists of raw values; skips fully blank rows. Yields (excel_row, values)."""
-    if ws is None:
-        return
-    for r in range(header_row + 1, ws.max_row + 1):
-        vals = [ws.cell(row=r, column=c).value for c in range(1, ws.max_column + 1)]
-        if all(text(v) == "" for v in vals):
-            continue
-        yield r, vals
-
-
 def col(vals, i):
     return vals[i] if i < len(vals) else None
 
 
+SECTION_NAMES = ["overview", "business impact", "chart insights", "referring domains", "monthly growth",
+                 "keyword lists", "url rankings", "key findings", "highlights"]
+
+
+def month_tabs(wb):
+    out = []
+    for ws in wb.worksheets:
+        m = parse_month(ws.title)
+        if m:
+            out.append((m, ws))
+    return out
+
+
+def read_sections(ws):
+    """Green section rows (exact names in column A) split the month tab. The next non-blank row is the
+    header; everything after it until the next section is data. -> {name: {"header": vals, "rows": [(r, vals)]}}"""
+    secs, cur = {}, None
+    width = ws.max_column
+    for r in range(1, ws.max_row + 1):
+        vals = [ws.cell(row=r, column=c).value for c in range(1, width + 1)]
+        a = text(vals[0]).lower() if vals else ""
+        if a in SECTION_NAMES and all(text(v) == "" or i == 1 for i, v in enumerate(vals) if i > 0) \
+                and (a not in secs):
+            cur = {"header": None, "rows": [], "start": r}
+            secs[a] = cur
+            continue
+        if cur is None or all(text(v) == "" for v in vals):
+            continue
+        if cur["header"] is None:
+            cur["header"] = vals
+            continue
+        cur["rows"].append((r, vals))
+    for n in SECTION_NAMES:
+        if n not in secs:
+            problems.append(f"Section '{n.title()}' is missing from the tab '{ws.title}' (keep the green section rows).")
+    return secs
+
+
 # ------------------------------------------------------------------ sections
-def parse_overview(ws):
+def read_sections_quiet(ws):
+    before = len(problems)
+    out = read_sections(ws)
+    del problems[before:]
+    return out
+
+
+def parse_overview(rows):
     fields = {}
-    for r, v in rows_of(ws):
+    for r, v in rows:
         key = text(col(v, 0)).lower()
         if key:
             fields[key] = col(v, 1)
@@ -162,7 +189,7 @@ def parse_overview(ws):
 
 
 def parse_highlight_images(ws):
-    """Pictures floating over the Highlights sheet -> {excel_row: (bytes, ext)}."""
+    """Pictures floating over the month tab -> {excel_row: (bytes, ext)}."""
     out = {}
     for img in getattr(ws, "_images", []):
         try:
@@ -173,7 +200,7 @@ def parse_highlight_images(ws):
         fmt = (getattr(img, "format", None) or "png").lower()
         ext = ".jpg" if fmt in ("jpeg", "jpg") else f".{fmt}"
         if row in out:
-            warnings.append(f"Highlights row {row} has more than one picture; using the first one.")
+            warnings.append(f"Row {row} has more than one picture; using the first one.")
             continue
         out[row] = (data, ext)
     return out
@@ -184,7 +211,8 @@ def main():
     ap.add_argument("xlsx")
     ap.add_argument("--report-date", help='Date shown at the top, e.g. "November 4, 2026". Default: the sheet, else today.')
     ap.add_argument("--link-name", help="Optional custom Vercel link name (overrides the sheet).")
-    ap.add_argument("--images-dir", help="Folder with screenshots named in the Highlights sheet.")
+    ap.add_argument("--month", help='Month tab to use, e.g. "Oct 2026". Default: the newest month tab.')
+    ap.add_argument("--images-dir", help="Folder with screenshots named in the Highlights section.")
     ap.add_argument("--dry-run", action="store_true", help="Validate only; write nothing.")
     args = ap.parse_args()
 
@@ -199,14 +227,44 @@ def main():
         report()
         sys.exit(2)
 
-    # ---- overview
-    get = parse_overview(sheet(wb, "Overview"))
-    rm = parse_month(get(r"^report month"))
-    if not rm:
-        problems.append("Overview: 'Report month' must look like 'Oct 2026'.")
+    # ---- pick the month tab
+    tabs = month_tabs(wb)
+    if not tabs:
+        problems.append("No month tab found. Name each month's tab like 'Oct 2026' (rename the template's 'Mon YYYY' tab).")
         report()
         sys.exit(2)
-    m_idx, year = rm
+    if args.month:
+        want = parse_month(args.month)
+        pick = [ws for m, ws in tabs if m == want]
+        if not want or not pick:
+            problems.append(f"No tab for '{args.month}'. Month tabs in the workbook: " + ", ".join(ws.title for _, ws in tabs) + ".")
+            report()
+            sys.exit(2)
+        ws_month = pick[0]
+    else:
+        dup = {}
+        for m, ws in tabs:
+            dup.setdefault(m, []).append(ws.title)
+        for m, names in dup.items():
+            if len(names) > 1:
+                problems.append("Two tabs are for the same month: " + ", ".join(f"'{n}'" for n in names) + ". Rename or delete one.")
+        ws_month = max(tabs, key=lambda x: (x[0][1], x[0][0]))[1]
+    tab_month = parse_month(ws_month.title)
+    notes.append(f"Using the tab '{ws_month.title}' (month tabs: " + ", ".join(ws.title for _, ws in tabs) + ")")
+    secs = read_sections(ws_month)
+
+    def sec_rows(name):
+        return (secs.get(name) or {}).get("rows", [])
+
+    def where(name, r):
+        return f"{ws_month.title} tab, {name} (row {r})"
+
+    # ---- overview
+    get = parse_overview(sec_rows("overview"))
+    rm = parse_month(get(r"^report month"))
+    if rm and rm != tab_month:
+        problems.append(f"Overview 'Report month' says {text(get(r'^report month'))} but the tab is '{ws_month.title}'. Make them the same.")
+    m_idx, year = tab_month
     month_key = f"{year}-{m_idx + 1:02d}"
     bm = parse_month(get(r"^baseline month"))
     if not bm:
@@ -220,17 +278,27 @@ def main():
         "totalBacklinks": number(get(r"^actual total"), "Overview: Actual total backlinks", False),
     }
 
+    # a duplicated tab that was never updated would publish last month's numbers again
+    older = [(m, ws) for m, ws in tabs if (m[1], m[0]) < (year, m_idx)]
+    if older:
+        pm, pws = max(older, key=lambda x: (x[0][1], x[0][0]))
+        pget = parse_overview(read_sections_quiet(pws).get("overview", {}).get("rows", []))
+        same = [lab for lab, rx in (("Actual total backlinks", r"^actual total"), ("Plan total backlinks", r"^plan total"))
+                if text(pget(rx)) and text(pget(rx)) == text(get(rx))]
+        if len(same) == 2:
+            warnings.append(f"Plan and actual total backlinks are the same as in the '{pws.title}' tab. "
+                            "Check the tab was updated for the new month.")
+
     # ---- business impact
-    ws = sheet(wb, "Business Impact")
     bi_rows = []
-    for r, v in rows_of(ws):
+    for r, v in sec_rows("business impact"):
         chart, kw = text(col(v, 0)), text(col(v, 1))
         if not kw:
             continue
-        bi_rows.append((chart, kw, number(col(v, 2), f"Business Impact row {r} baseline rank"),
-                        number(col(v, 3), f"Business Impact row {r} current rank")))
+        bi_rows.append((chart, kw, number(col(v, 2), where("Business Impact", r) + " baseline rank"),
+                        number(col(v, 3), where("Business Impact", r) + " current rank")))
     ins = {}
-    for r, v in rows_of(sheet(wb, "Chart Insights")):
+    for r, v in sec_rows("chart insights"):
         if text(col(v, 0)):
             ins[text(col(v, 0)).lower()] = text(col(v, 1))
 
@@ -244,7 +312,7 @@ def main():
         if not rows:
             warnings.append(f"Business Impact: no keywords for the '{c['title'].strip()}' chart.")
         if not insight:
-            warnings.append(f"No key takeaway found for the '{c['title'].strip()}' chart (Chart Insights sheet).")
+            warnings.append(f"No key takeaway found for the '{c['title'].strip()}' chart (Chart Insights section).")
         for x in rows:
             if x["baseline"] is None or x["current"] is None:
                 warnings.append(f"Business impact keyword '{x['keyword']}' is missing a baseline or current rank.")
@@ -257,15 +325,15 @@ def main():
 
     # ---- referring domains
     da = []
-    for r, v in rows_of(sheet(wb, "Referring Domains")):
+    for r, v in sec_rows("referring domains"):
         name = text(col(v, 0))
         if not name:
             continue
         m = re.search(r"(\d+)\s*[-–—to]+\s*(\d+)", name)
         if not m:
-            problems.append(f"Referring Domains row {r}: DA range '{name}' should look like 'DA 41-70'.")
+            problems.append(where("Referring Domains", r) + f": DA range '{name}' should look like 'DA 41-70'.")
             continue
-        da.append({"name": f"DA {m.group(1)}-{m.group(2)}", "value": number(col(v, 1), f"Referring Domains row {r}", False) or 0,
+        da.append({"name": f"DA {m.group(1)}-{m.group(2)}", "value": number(col(v, 1), where("Referring Domains", r), False) or 0,
                    "color": DA_COLORS[len(da) % len(DA_COLORS)]})
     total_da = sum(d["value"] for d in da)
     high = sum(d["value"] for d in da if int(re.search(r"DA (\d+)", d["name"]).group(1)) >= 41)
@@ -275,32 +343,32 @@ def main():
 
     # ---- monthly growth
     growth = []
-    for r, v in rows_of(sheet(wb, "Monthly Growth")):
+    for r, v in sec_rows("monthly growth"):
         mv = col(v, 0)
         pm = parse_month(mv)
         mm = MON_RE.match(text(mv)) if not pm else None
         if not pm and not mm:
-            problems.append(f"Monthly Growth row {r}: month '{text(mv)}' should look like 'Feb 2026'.")
+            problems.append(where("Monthly Growth", r) + f": month '{text(mv)}' should look like 'Feb 2026'.")
             continue
         idx = pm[0] if pm else ud.mi(mm.group(1))
-        growth.append({"month": MONTHS[idx][:3].title(), "backlinks": number(col(v, 1), f"Monthly Growth row {r}")})
+        growth.append({"month": MONTHS[idx][:3].title(), "backlinks": number(col(v, 1), where("Monthly Growth", r))})
     if growth and growth[-1]["month"] != MONTHS[m_idx][:3].title():
         warnings.append(f"Monthly Growth ends at {growth[-1]['month']}, not the report month ({MONTHS[m_idx][:3].title()}).")
 
     # ---- keyword lists
     t5, p1 = [], []
-    for r, v in rows_of(sheet(wb, "Keyword Lists")):
+    for r, v in sec_rows("keyword lists"):
         lst, kw = text(col(v, 0)).lower().replace(" ", ""), text(col(v, 1))
         if not kw:
             continue
-        item = {"keyword": kw, "base": number(col(v, 2), f"Keyword Lists row {r} baseline rank"),
-                "cur": number(col(v, 3), f"Keyword Lists row {r} current rank"), "url": text(col(v, 4))}
+        item = {"keyword": kw, "base": number(col(v, 2), where("Keyword Lists", r) + " baseline rank"),
+                "cur": number(col(v, 3), where("Keyword Lists", r) + " current rank"), "url": text(col(v, 4))}
         if lst in ("top5",):
             t5.append(item)
         elif lst in ("page1", "firstpage"):
             p1.append(item)
         else:
-            problems.append(f"Keyword Lists row {r}: List must be 'Top 5' or 'Page 1' (found '{text(col(v, 0))}').")
+            problems.append(where("Keyword Lists", r) + f": List must be 'Top 5' or 'Page 1' (found '{text(col(v, 0))}').")
 
     def url_for(item):
         if item["url"]:
@@ -335,16 +403,15 @@ def main():
             warnings.append(f"Keywords in {label}: Overview says {n} but Keyword Lists has {len(lst)} current keywords.")
 
     # ---- URL rankings -> performance summary
-    ws = sheet(wb, "URL Rankings")
     blocks, cur = [], None
     month_cols = []
-    if ws is not None:
-        hdr = [ws.cell(row=2, column=c).value for c in range(1, ws.max_column + 1)]
+    hdr = (secs.get("url rankings") or {}).get("header")
+    if hdr:
         month_cols = [i for i, h in enumerate(hdr) if i >= 2 and text(h)]
         last = parse_month(hdr[month_cols[-1]]) if month_cols else None
         if month_cols and last and last != (m_idx, year):
             warnings.append(f"URL Rankings: last month column is '{text(hdr[month_cols[-1]])}', not the report month.")
-        for r, v in rows_of(ws):
+        for r, v in sec_rows("url rankings"):
             u, metric = text(col(v, 0)), text(col(v, 1))
             if u:
                 cur = {"url": u, "total": None, "pa": None, "keywords": [], "row": r}
@@ -352,9 +419,9 @@ def main():
             if not metric:
                 continue
             if cur is None:
-                problems.append(f"URL Rankings row {r}: '{metric}' has no URL above it in column A.")
+                problems.append(where("URL Rankings", r) + f": '{metric}' has no URL above it in column A.")
                 continue
-            vals = [number(col(v, i), f"URL Rankings row {r} ({metric})") for i in month_cols]
+            vals = [number(col(v, i), where("URL Rankings", r) + f" ({metric})") for i in month_cols]
             low = metric.lower()
             if low.startswith("total backlinks"):
                 cur["total"] = vals
@@ -383,32 +450,33 @@ def main():
 
     # ---- key findings
     key_findings = []
-    for r, v in rows_of(sheet(wb, "Key Findings")):
+    for r, v in sec_rows("key findings"):
         t = md(col(v, 1)) or (md(col(v, 0)) if not isinstance(col(v, 0), (int, float)) else "")
         if t:
             key_findings.append({"description": t})
 
     # ---- highlights (+ screenshots)
-    ws = sheet(wb, "Highlights")
-    pics = parse_highlight_images(ws) if ws is not None else {}
+    pics = parse_highlight_images(ws_month)
+    hl_rows = sec_rows("highlights")
+    hl_start = (secs.get("highlights") or {}).get("start", 10 ** 9)
     import zipfile
     with zipfile.ZipFile(args.xlsx) as z:
         if any(n.startswith("xl/richData/") for n in z.namelist()):
             warnings.append("Some pictures were added with 'Place in Cell'; those cannot be read. Paste them so they float "
-                            "over column E instead (Excel: right-click the picture > Place over Cells).")
+                            "over the cells instead (Excel: right-click the picture > Place over Cells).")
     extracted = []  # (bytes or source path, file name)
     highlights, llm = [], []
     counters = {"highlight": 0, "llm": 0}
-    for r, v in rows_of(ws):
-        typ, title, desc = text(col(v, 0)).lower(), text(col(v, 2)), text(col(v, 3))
-        fname = text(col(v, 5))
+    for r, v in hl_rows:
+        typ, title, desc = text(col(v, 0)).lower(), text(col(v, 1)), text(col(v, 2))
+        fname = text(col(v, 8))
         if not title and not desc:
             if r in pics:
-                warnings.append(f"Highlights row {r} has a picture but no title or description; ignored.")
+                warnings.append(where("Highlights", r) + f" has a picture but no title or description; ignored.")
             continue
         kind = "llm" if typ.startswith("llm") else ("highlight" if typ.startswith("highlight") else None)
         if not kind:
-            problems.append(f"Highlights row {r}: Type must be 'Highlight' or 'LLM Highlight' (found '{text(col(v, 0))}').")
+            problems.append(where("Highlights", r) + f": Type must be 'Highlight' or 'LLM Highlight' (found '{text(col(v, 0))}').")
             continue
         counters[kind] += 1
         n = counters[kind]
@@ -428,17 +496,18 @@ def main():
             else:
                 problems.append(f"{label} {n} ('{title}'): screenshot file '{fname}' was not attached.")
         else:
-            warnings.append(f"{label} {n} ('{title}') has no screenshot (paste it over column E of row {r}).")
+            warnings.append(f"{label} {n} ('{title}') has no screenshot (paste it on row {r} of the Highlights section, from column I).")
         if not title:
             warnings.append(f"{label} {n} has no title.")
         if not desc:
             warnings.append(f"{label} {n} ('{title}') has no description.")
         (llm if kind == "llm" else highlights).append({"title": title, "description": desc, "image": image})
-    stray = sorted(set(pics) - {r for r, _ in rows_of(ws)}) if ws is not None else []
+    stray = sorted(set(pics) - {r for r, _ in hl_rows})
     for r in stray:
-        warnings.append(f"Highlights: a picture sits on row {r}, which has no highlight; it is ignored.")
+        where_ = "in the Highlights section" if r > hl_start else "above the Highlights section"
+        warnings.append(f"A picture sits on row {r} ({where_}) where there is no highlight; it is ignored.")
     if not highlights:
-        warnings.append("No highlights found in the Highlights sheet.")
+        warnings.append("No highlights found in the Highlights section.")
 
     sheet_url = text(get(r"^monthly backlinks sheet")) or None
     out_path = os.path.join(DATA, "report.json")
